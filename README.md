@@ -14,11 +14,11 @@
 
 ```html
 <input
-  type="text"
-  name="name"
-  pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-  title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-  required
+    type="text"
+    name="name"
+    pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+    title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    required
 />
 ```
 
@@ -57,11 +57,11 @@ state = {
 
 ```html
 <input
-  type="tel"
-  name="number"
-  pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-  title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-  required
+    type="tel"
+    name="number"
+    pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+    title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+    required
 />
 ```
 
@@ -74,9 +74,9 @@ state = {
 Добавь поле поиска, которое можно использовать для фильтрации списка контактов
 по имени.
 
-- Поле поиска это инпут без формы, значение которого записывается в состояние
-  (контролируемый элемент).
-- Логика фильтрации должна быть нечувствительна к регистру.
+-   Поле поиска это инпут без формы, значение которого записывается в состояние
+    (контролируемый элемент).
+-   Логика фильтрации должна быть нечувствительна к регистру.
 
 ```bash
 state = {
