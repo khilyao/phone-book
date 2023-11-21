@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Form } from 'formik';
 
-export const Form = styled.form`
+export const StyledForm = styled(Form)`
     display: inline-flex;
     flex-direction: column;
 
@@ -8,14 +9,6 @@ export const Form = styled.form`
 
     outline: 1px solid #000;
 `;
-export const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    margin-bottom: 20px;
-`;
-export const Label = styled.label``;
-export const Input = styled.input``;
 
 export const SubmitBtn = styled.button`
     flex-shrink: 0;

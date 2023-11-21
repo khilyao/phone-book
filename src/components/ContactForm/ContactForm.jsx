@@ -1,68 +1,44 @@
 import { Component } from 'react';
-import { Wrapper, Label, Input, Form, SubmitBtn } from './ContactForm.styled';
+import { StyledForm, SubmitBtn } from './ContactForm.styled';
 import { v4 as uuidv4 } from 'uuid';
+import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+    name: Yup.string().required(),
+    number: Yup.string().required(),
+});
 
 export default class ContactForm extends Component {
     nameInputId = uuidv4();
     numberInputId = uuidv4();
 
-    state = {
-        name: '',
-        number: '',
-    };
-
-    handleInputChange = e => {
-        const target = e.currentTarget;
-        const key = target.name;
-
-        this.setState({
-            [key]: target.value,
-        });
-    };
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { name, number } = this.state;
-        this.props.onSubmit(name, number);
-
-        this.setState({
-            name: '',
-            number: '',
-        });
-    };
-
     render() {
-        const { name, number } = this.state;
-
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <Wrapper>
-                    <Label htmlFor={this.nameInputId}>Name</Label>
-                    <Input
-                        name="name"
-                        id={this.nameInputId}
-                        type="text"
-                        value={name}
-                        onChange={this.handleInputChange}
-                        required
-                    />
-                </Wrapper>
-                <Wrapper>
-                    <Label htmlFor={this.numberInputId}>Number</Label>{' '}
-                    <Input
+            <Formik
+                initialValues={{ name: '', number: '' }}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                    const { name, number } = values;
+
+                    this.props.onSubmit(name, number);
+                    resetForm();
+                    setSubmitting(false);
+                }}
+            >
+                <StyledForm>
+                    <label htmlFor={this.nameInputId}>Name</label>
+                    <Field name="name" id={this.nameInputId} type="text" />
+                    <label htmlFor={this.numberInputId}>Number</label>
+                    <Field
                         name="number"
                         id={this.numberInputId}
                         type="tel"
-                        value={number}
-                        onChange={this.handleInputChange}
-                        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                        required
                     />
-                </Wrapper>
-                <SubmitBtn type="submit">Add contact</SubmitBtn>
-            </Form>
+                    <SubmitBtn type="submit">Add contact</SubmitBtn>
+                </StyledForm>
+            </Formik>
         );
     }
 }
