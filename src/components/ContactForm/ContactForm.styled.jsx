@@ -5,6 +5,7 @@ export const StyledForm = styled(Form)`
     display: inline-flex;
     flex-direction: column;
 
+    max-width: 300px;
     padding: 10px;
 
     outline: 1px solid #000;
