@@ -1,15 +1,22 @@
+import PropTypes from 'prop-types';
 import { Label, Input } from './Filter.styled';
-import { Component } from 'react';
 
-export default class Filter extends Component {
-    render() {
-        const { value, onFilterContacts } = this.props;
+const Filter = ({ value, onFilterContacts }) => (
+    <>
+        <Label>
+            Find contacts by name
+            <Input
+                name="text"
+                type="text"
+                value={value}
+                onChange={onFilterContacts}
+            />
+        </Label>
+    </>
+);
+Filter.propTypes = {
+    value: PropTypes.string.isRequired,
+    onFilterContacts: PropTypes.func.isRequired,
+};
 
-        return (
-            <Label>
-                Find contacts by name
-                <Input type="text" value={value} onChange={onFilterContacts} />
-            </Label>
-        );
-    }
-}
+export default Filter;

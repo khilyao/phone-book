@@ -1,19 +1,21 @@
-import { Component } from 'react';
 import { Item, ContactInfo, DeleteBtn } from './Contact.styled';
+import PropTypes from 'prop-types';
 
-export default class Contact extends Component {
-    render() {
-        const { name, number, onDeleteContact } = this.props;
+const Contact = ({ name, number, onDeleteContact }) => (
+    <Item>
+        <ContactInfo>
+            {name}: {number}
+        </ContactInfo>
+        <DeleteBtn type="button" onClick={onDeleteContact}>
+            Delete
+        </DeleteBtn>
+    </Item>
+);
 
-        return (
-            <Item>
-                <ContactInfo>
-                    {name}: {number}
-                </ContactInfo>
-                <DeleteBtn type="button" onClick={onDeleteContact}>
-                    Delete
-                </DeleteBtn>
-            </Item>
-        );
-    }
-}
+Contact.propTypes = {
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    onDeleteContact: PropTypes.func.isRequired,
+};
+
+export default Contact;

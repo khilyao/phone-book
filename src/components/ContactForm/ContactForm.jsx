@@ -29,10 +29,8 @@ export default class ContactForm extends Component {
             <Formik
                 initialValues={{ name: '', number: '' }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                    const { name, number } = values;
-
-                    this.props.onSubmit(name, number);
+                onSubmit={(contact, { setSubmitting, resetForm }) => {
+                    this.props.onSubmit(contact);
                     resetForm();
                     setSubmitting(false);
                 }}

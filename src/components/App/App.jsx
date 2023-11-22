@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import ContactForm from 'components/ContactForm/ContactForm';
 import { v4 as uuidv4 } from 'uuid';
+import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
 export class App extends Component {
@@ -45,17 +45,20 @@ export class App extends Component {
         );
     };
 
-    addContact = (name, number) => {
-        this.setState(prevState => {
-            const contact = {
-                id: uuidv4(),
-                name,
-                number,
-            };
+    addContact = contact => {
+        const isInContacts = this.state.contacts.find(
+            ({ name }) => contact.name === name
+        );
 
+        if (isInContacts) {
+            alert(`${contact.name} is already in contacts`);
+            return;
+        }
+
+        this.setState(prevState => {
             return {
                 ...prevState,
-                contacts: [{ ...contact }, ...prevState.contacts],
+                contacts: [{ id: uuidv4(), ...contact }, ...prevState.contacts],
             };
         });
     };
