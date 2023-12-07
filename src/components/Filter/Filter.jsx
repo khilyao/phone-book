@@ -14,6 +14,7 @@ const Filter = ({ value, onFilterContacts }) => (
         </Label>
     </>
 );
+
 Filter.propTypes = {
     value: PropTypes.string.isRequired,
     onFilterContacts: PropTypes.func.isRequired,

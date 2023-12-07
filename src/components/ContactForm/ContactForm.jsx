@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import { StyledForm, SubmitBtn } from './ContactForm.styled';
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Field, ErrorMessage } from 'formik';
@@ -20,31 +19,31 @@ const validationSchema = Yup.object().shape({
         .required(),
 });
 
-export default class ContactForm extends Component {
-    nameInputId = uuidv4();
-    numberInputId = uuidv4();
+const ContactForm = ({ onSubmit }) => {
+    const nameInputId = uuidv4();
+    const numberInputId = uuidv4();
 
-    render() {
-        return (
-            <Formik
-                initialValues={{ name: '', number: '' }}
-                validationSchema={validationSchema}
-                onSubmit={(contact, { setSubmitting, resetForm }) => {
-                    this.props.onSubmit(contact);
-                    resetForm();
-                    setSubmitting(false);
-                }}
-            >
-                <StyledForm>
-                    <label htmlFor={this.nameInputId}>Name</label>
-                    <Field name="name" id={this.nameInputId} type="text" />
-                    <ErrorMessage name="name" />
-                    <label htmlFor={this.numberInputId}>Number</label>
-                    <Field name="number" id={this.numberInputId} type="tel" />
-                    <ErrorMessage name="number" />
-                    <SubmitBtn type="submit">Add contact</SubmitBtn>
-                </StyledForm>
-            </Formik>
-        );
-    }
-}
+    return (
+        <Formik
+            initialValues={{ name: '', number: '' }}
+            validationSchema={validationSchema}
+            onSubmit={(contact, { setSubmitting, resetForm }) => {
+                onSubmit(contact);
+                resetForm();
+                setSubmitting(false);
+            }}
+        >
+            <StyledForm>
+                <label htmlFor={nameInputId}>Name</label>
+                <Field name="name" id={nameInputId} type="text" />
+                <ErrorMessage name="name" />
+                <label htmlFor={numberInputId}>Number</label>
+                <Field name="number" id={numberInputId} type="tel" />
+                <ErrorMessage name="number" />
+                <SubmitBtn type="submit">Add contact</SubmitBtn>
+            </StyledForm>
+        </Formik>
+    );
+};
+
+export default ContactForm;
