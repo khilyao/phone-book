@@ -1,6 +1,8 @@
 import { StyledForm, SubmitBtn } from './ContactForm.styled';
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Field, ErrorMessage } from 'formik';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../store/contacts/contactSlice';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -19,16 +21,20 @@ const validationSchema = Yup.object().shape({
         .required(),
 });
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
     const nameInputId = uuidv4();
     const numberInputId = uuidv4();
+
+    const dispatch = useDispatch();
 
     return (
         <Formik
             initialValues={{ name: '', number: '' }}
             validationSchema={validationSchema}
             onSubmit={(contact, { setSubmitting, resetForm }) => {
-                onSubmit(contact);
+                const newContact = { ...contact, id: uuidv4() };
+
+                dispatch(addContact(newContact));
                 resetForm();
                 setSubmitting(false);
             }}
