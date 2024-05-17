@@ -17,7 +17,7 @@ const Filter = () => {
                     value={filter}
                     onChange={e => {
                         setFilter(e.target.value);
-                        dispatch(changeFilter(filter));
+                        dispatch(changeFilter(e.target.value));
                     }}
                 />
             </Label>

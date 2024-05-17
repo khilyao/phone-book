@@ -9,8 +9,7 @@ export const filterSlice = createSlice({
     initialState,
     reducers: {
         changeFilter(state, { payload }) {
-            console.log(payload);
-            state.filter.filter = payload.text;
+            state.filter = payload;
         },
     },
 });

@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { filterSelector } from 'store/filter/filterSelector';
 
 const ContactList = () => {
-    const { data: contacts, error, isLoading } = useGetContactsQuery();
+    const { data: contacts, isLoading } = useGetContactsQuery();
 
     const filter = useSelector(filterSelector);
 
     const getVisibleContacts = () => {
         const normalizedFilter = filter.toLowerCase();
-        console.log(contacts, filter);
+
         return contacts.filter(({ name }) =>
             name.toLowerCase().includes(normalizedFilter)
         );
@@ -29,7 +29,7 @@ const ContactList = () => {
                                 key={id}
                                 id={id}
                                 name={name}
-                                phone={phone}
+                                phone={phone.toString()}
                             ></Contact>
                         ))}
                     </List>
