@@ -1,9 +1,11 @@
 import { StyledForm, SubmitBtn } from './ContactForm.styled';
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Field, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
-import { addContact } from '../../store/contacts/contactSlice';
 import * as Yup from 'yup';
+import {
+    useAddContactMutation,
+    useGetContactsQuery,
+} from 'store/contacts/contactsSlice';
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -12,7 +14,7 @@ const validationSchema = Yup.object().shape({
             "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan'"
         )
         .required(),
-    number: Yup.string()
+    phone: Yup.string()
         .trim()
         .matches(
             /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
@@ -22,19 +24,37 @@ const validationSchema = Yup.object().shape({
 });
 
 const ContactForm = () => {
+    const [addContact] = useAddContactMutation();
+    const { data: contacts } = useGetContactsQuery();
+
+    const handleAddContact = async contact => {
+        try {
+            const isInContacts = contacts.find(
+                ({ name }) => contact.name === name
+            );
+
+            if (!isInContacts) {
+                await addContact(contact);
+                return;
+            }
+
+            alert(`${contact.name} is already in contacts`);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     const nameInputId = uuidv4();
     const numberInputId = uuidv4();
 
-    const dispatch = useDispatch();
-
     return (
         <Formik
-            initialValues={{ name: '', number: '' }}
+            initialValues={{ name: '', phone: '' }}
             validationSchema={validationSchema}
             onSubmit={(contact, { setSubmitting, resetForm }) => {
                 const newContact = { ...contact, id: uuidv4() };
 
-                dispatch(addContact(newContact));
+                handleAddContact(newContact);
                 resetForm();
                 setSubmitting(false);
             }}
@@ -44,8 +64,8 @@ const ContactForm = () => {
                 <Field name="name" id={nameInputId} type="text" />
                 <ErrorMessage name="name" />
                 <label htmlFor={numberInputId}>Number</label>
-                <Field name="number" id={numberInputId} type="tel" />
-                <ErrorMessage name="number" />
+                <Field name="phone" id={numberInputId} type="number" />
+                <ErrorMessage name="phone" />
                 <SubmitBtn type="submit">Add contact</SubmitBtn>
             </StyledForm>
         </Formik>

@@ -1,19 +1,42 @@
-import PropTypes from 'prop-types';
 import Contact from 'components/Contact/Contact';
 import { List } from './ContactList.styled';
+import { useGetContactsQuery } from 'store/contacts/contactsSlice';
+import { useSelector } from 'react-redux';
+import { filterSelector } from 'store/filter/filterSelector';
 
-const ContactList = ({ contacts }) => {
+const ContactList = () => {
+    const { data: contacts, error, isLoading } = useGetContactsQuery();
+
+    const filter = useSelector(filterSelector);
+
+    const getVisibleContacts = () => {
+        const normalizedFilter = filter.toLowerCase();
+        console.log(contacts, filter);
+        return contacts.filter(({ name }) =>
+            name.toLowerCase().includes(normalizedFilter)
+        );
+    };
+
     return (
-        <List>
-            {contacts.map(({ id, name, number }) => (
-                <Contact key={id} id={id} name={name} number={number}></Contact>
-            ))}
-        </List>
+        <>
+            {isLoading ? (
+                <div>Wait a moment...</div>
+            ) : (
+                <>
+                    <List>
+                        {getVisibleContacts().map(({ id, name, phone }) => (
+                            <Contact
+                                key={id}
+                                id={id}
+                                name={name}
+                                phone={phone}
+                            ></Contact>
+                        ))}
+                    </List>
+                </>
+            )}
+        </>
     );
-};
-
-ContactList.propTypes = {
-    contacts: PropTypes.array.isRequired,
 };
 
 export default ContactList;
