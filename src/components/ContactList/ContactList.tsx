@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { filterSelector } from 'store/filter/filterSelector';
 
 const ContactList = () => {
-    const { data: contacts, isLoading } = useGetContactsQuery();
+    const { data: contacts = [], isLoading } = useGetContactsQuery();
 
     const filter = useSelector(filterSelector);
 

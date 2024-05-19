@@ -2,7 +2,13 @@ import { Item, ContactInfo, DeleteBtn } from './Contact.styled';
 import PropTypes from 'prop-types';
 import { useDeleteContactMutation } from 'store/contacts/contactsSlice';
 
-const Contact = ({ id, name, phone }) => {
+type Props = {
+    id: string;
+    name: string;
+    phone: string;
+};
+
+const Contact = ({ id, name, phone }: Props) => {
     const [deleteContact] = useDeleteContactMutation();
 
     return (

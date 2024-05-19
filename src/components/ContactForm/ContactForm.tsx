@@ -2,6 +2,7 @@ import { StyledForm, SubmitBtn } from './ContactForm.styled';
 import { v4 as uuidv4 } from 'uuid';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Contact } from 'types/contact';
 import {
     useAddContactMutation,
     useGetContactsQuery,
@@ -15,6 +16,7 @@ const validationSchema = Yup.object().shape({
         )
         .required(),
     phone: Yup.string()
+
         .trim()
         .matches(
             /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
@@ -25,9 +27,9 @@ const validationSchema = Yup.object().shape({
 
 const ContactForm = () => {
     const [addContact] = useAddContactMutation();
-    const { data: contacts } = useGetContactsQuery();
+    const { data: contacts = [] } = useGetContactsQuery();
 
-    const handleAddContact = async contact => {
+    const handleAddContact = async (contact: Contact) => {
         try {
             const isInContacts = contacts.find(
                 ({ name }) => contact.name === name

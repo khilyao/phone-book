@@ -9,10 +9,10 @@ export const store = configureStore({
         [contactsAPI.reducerPath]: contactsAPI.reducer,
     },
 
-    middleware: getDefaultMiddleware => [
-        ...getDefaultMiddleware(),
-        contactsAPI.middleware,
-    ],
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().concat(contactsAPI.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 setupListeners(store.dispatch);

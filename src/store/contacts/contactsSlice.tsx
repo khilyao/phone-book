@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Contact } from '../../types/contact';
 
 const END_POINT = '/contacts';
 
@@ -9,7 +10,7 @@ export const contactsAPI = createApi({
     }),
     tagTypes: ['Contact'],
     endpoints: builder => ({
-        getContacts: builder.query({
+        getContacts: builder.query<Contact[], void>({
             query: () => END_POINT,
             providesTags: ['Contact'],
         }),
